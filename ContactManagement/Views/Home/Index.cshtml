@@ -1,0 +1,174 @@
+﻿@model ContactManagement.Models.ContactModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="card">
+    <div class="card-header " style="text-align: end;">
+        <a href="#" style="text-decoration: none;" id="addNewContact"><i class="bi bi-plus-circle-fill"></i> New Contact</a>
+    </div>
+    <div class="card-body ">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card border-info" style="height:75vh">
+                    <div class="card-body">
+                        <label for="searchInputEmail" class="card-title">Search Email ID</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search Email ID" aria-label="Search Email ID" aria-describedby="basic-addon2" id="searchInputEmail">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="searchEmailBtn"><i class="bi bi-search"></i></span>
+                            </div>
+                        </div>
+
+
+                        <label class="card-title">Contact Directory</label>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="list-group" style="height:350px; overflow-y: scroll;" id="ContactListDiv">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card border-info" style="height:75vh">
+                    <div class="card-body">
+                        <label class="card-title">Favorites</label>
+                        <div class="list-group" id="favContactListDiv">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ContactModalCenter" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="ContactModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ContactModalLongTitle">New Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contactForm">
+                    <div class="row mb-3">
+                        <input type="hidden" id="inputId" name="ID" value="0">
+                        <div class="form-group col-md-6">
+                            <label for="inputFirstName">First Name</label><small class="text-danger"> *</small>
+                            <input type="text" class="form-control" id="inputFirstName" name="FIRSTNAME">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLastName">Last Name</label><small class="text-danger"> *</small>
+                            <input type="text" class="form-control" id="inputLastName" name="LASTNAME">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmailAddress">Email Address</label><small class="text-danger"> *</small>
+                            <input type="email" class="form-control" id="inputEmailAddress" name="EMAIL">
+                            <small class="" id="validationMessage"></small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputUserName">User Name</label><small class="text-danger"> *</small>
+                            <input type="text" class="form-control" id="inputUserName" name="USERNAME">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword">Password</label><small class="text-danger"> *</small>
+                            <input type="password" class="form-control" id="inputPassword" name="PASSWORD">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputConfirmPassword">Confirm Password</label><small class="text-danger"> *</small>
+                            <input type="password" class="form-control" id="inputConfirmPassword" name="CONFIRMPASSWORD">
+                            <small class="" id="validationMessagepassword"></small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="inputPhoneNo">Phone No.</label><small class="text-danger"> *</small>
+                            <input type="text" class="form-control" id="inputPhoneNo" name="PHONENO">
+                            <small class="" id="validationMessagePhoneNo"></small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputAddress">Address</label><small class="text-danger"> *</small>
+                            <input type="text" class="form-control" id="inputAddress" name="ADDRESS">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Discard</button>
+                <button type="button" class="btn btn-primary" id="saveContact">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewContactModalCenter" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="ContactModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ContactModalLongTitle">New Contact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label>First Name</label><br />
+                        <label id="lblFirstName" class="fw-bolder"></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Last Name</label><br />
+                        <label id="lblLastName" class="fw-bolder"></label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label>Email Address</label><br />
+                        <label id="lblEmailAddress" class="fw-bolder"></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>User Name</label><br />
+                        <label id="lblUserName" class="fw-bolder"></label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label>Password</label><br />
+                        <label id="lblPassword" class="fw-bolder"></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Confirm Password</label><br />
+                        <label id="lblConfirmPassword" class="fw-bolder"></label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <label>Phone No.</label><br />
+                        <label id="lblPhoneNo" class="fw-bolder"></label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Address</label><br />
+                        <label id="lblAddress" class="fw-bolder"></label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/contact.js"></script>
+}
+
